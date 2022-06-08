@@ -1,4 +1,4 @@
-# Pokemon Page
+# Pokemon
 
 ## Technologies
 
@@ -6,6 +6,7 @@
 
 -   ReactJS
 -   Typescript
+-   SASS (SCSS)
 
 ### Back End
 

@@ -1,0 +1,78 @@
+@import '/src/shared/scss/inheritances';
+@import '/src/shared/scss/mixins';
+
+* {
+	font-family: 'Khand', sans-serif;
+	box-sizing: border-box;
+	user-select: none;
+	padding: 0;
+	margin: 0;
+
+	&,
+	&::before,
+	&::after {
+		box-sizing: border-box;
+		padding: 0;
+		margin: 0;
+	}
+	&::-webkit-scrollbar {
+		width: 0;
+	}
+}
+
+html {
+	font-size: 62.5%;
+}
+
+body {
+	overflow: hidden auto;
+	scroll-behavior: smooth;
+	background-color: #3d405b;
+	text-rendering: optimizeSpeed;
+}
+
+.container {
+	margin: 3rem;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+
+	&.overlay {
+		margin: 0rem;
+		overflow-y: hidden;
+	}
+}
+
+.pokemon-header {
+	position: sticky;
+	top: 0;
+	width: 100%;
+	color: #81b29a;
+	font-size: 5rem;
+	font-weight: 600;
+	text-align: center;
+	background: #3d405b;
+	letter-spacing: 0.25rem;
+
+	&::after {
+		@include underline(50%, currentColor);
+	}
+}
+
+.load-more {
+	cursor: pointer;
+	position: relative;
+	font-size: 3.5rem;
+	color: #3d405b;
+	width: 40rem;
+	padding: 0.5rem;
+	margin: 5rem;
+	border: none;
+	border-radius: 1.5rem;
+	background-color: #81b29a;
+	transition: 0.2s ease;
+
+	&:hover {
+		background-color: #61997e;
+	}
+}

@@ -1,10 +1,10 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import './App.css';
+import { Pokemon, PokemonDetailProps, Pokemons } from './shared/types';
 import PokemonCollection from './components/PokemonCollection';
-import { Pokemon, PokemonDetailProps, Pokemons } from './types';
+import { FC, useEffect, useState, useCallback } from 'react';
+import axios from 'axios';
+import './App.scss';
 
-const App: React.FC = () => {
+const App: FC = () => {
 	const [pokemons, setPokemons] = useState<Pokemon[]>([]);
 	const [nextUrl, setNextUrl] = useState<string>('');
 	const [loading, setLoading] = useState<boolean>(true);
@@ -13,35 +13,12 @@ const App: React.FC = () => {
 		isOpened: false,
 	});
 
-	useEffect(() => {
-		const getPokemons = async () => {
-			setLoading(true);
-
-			const { data } = await axios.get(
-				'https://pokeapi.co/api/v2/pokemon?limit=20&offset=0'
-			);
-
-			data.results.forEach(async (_: Pokemons) => {
-				const { data } = await axios.get(
-					`https://pokeapi.co/api/v2/pokemon/${_.name}`
-				);
-
-				setPokemons((p) => [...p, data]);
-			});
-
-			setNextUrl(data.next);
-			setLoading(false);
-		};
-
-		getPokemons();
-
-		return () => {};
-	}, []);
-
-	const loadNextPage = async () => {
+	const loadNextPage = useCallback(async () => {
 		setLoading(true);
 
-		const { data } = await axios.get(nextUrl);
+		const { data } = await axios.get(
+			nextUrl || 'https://pokeapi.co/api/v2/pokemon?limit=20&offset=0'
+		);
 
 		data.results.forEach(async (_: Pokemons) => {
 			const { data } = await axios.get(
@@ -53,11 +30,17 @@ const App: React.FC = () => {
 
 		setNextUrl(data.next);
 		setLoading(false);
-	};
+	}, [nextUrl]);
+
+	useEffect(() => {
+		loadNextPage();
+
+		return () => {};
+	}, []);
 
 	return (
 		<div className="App">
-			<div className="container">
+			<div className={!viewDetail.isOpened ? "container": "container overlay"}>
 				<header className="pokemon-header">Pokemon</header>
 
 				<PokemonCollection
@@ -67,11 +50,12 @@ const App: React.FC = () => {
 				/>
 
 				{!viewDetail.isOpened && (
-					<div className="btn">
-						<button onClick={loadNextPage}>
-							{!loading ? 'More Pokemons' : 'Loading ...'}
-						</button>
-					</div>
+					<button
+						className="load-more"
+						onClick={() => loadNextPage()}
+					>
+						{!loading ? 'More Pokemons' : 'Loading ...'}
+					</button>
 				)}
 			</div>
 		</div>

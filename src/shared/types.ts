@@ -13,8 +13,12 @@ export interface Pokemons {
 
 export interface PokemonDetail extends Pokemon {
 	abilities?: {
-		ability: string;
-		name: string;
+		ability: {
+			name: string;
+			url: string;
+		};
+		is_hidden: boolean;
+		slot: number;
 	}[];
 }
 
@@ -34,8 +38,12 @@ export interface PokemonListProps {
 	img: string;
 	name: string;
 	abilities?: {
-		ability: string;
-		name: string;
+		ability: {
+			name: string;
+			url: string;
+		};
+		is_hidden: boolean;
+		slot: number;
 	}[];
 	viewDetail: PokemonDetailProps;
 	setDetail: React.Dispatch<React.SetStateAction<PokemonDetailProps>>;

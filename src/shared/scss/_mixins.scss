@@ -1,0 +1,10 @@
+@mixin underline($width, $bg) {
+	content: '';
+	position: absolute;
+	height: 0.5rem;
+	bottom: 0;
+	left: 0;
+	transform: translateX(50%);
+	width: $width;
+	background-color: $bg;
+}

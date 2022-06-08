@@ -1,9 +1,9 @@
-import React from 'react';
-import { PokemonCollectionProps } from '../types';
+import { PokemonCollectionProps } from '../shared/types';
 import PokemonList from './PokemonList';
-import './pokemon.css';
+import { FC } from 'react';
+import './pokemon.scss';
 
-const PokemonCollection: React.FC<PokemonCollectionProps> = (props) => {
+const PokemonCollection: FC<PokemonCollectionProps> = (props) => {
 	const { pokemons, viewDetail, setDetail } = props;
 
 	const selectPokemon = (id: number) => {
@@ -19,20 +19,22 @@ const PokemonCollection: React.FC<PokemonCollectionProps> = (props) => {
 						: 'collection-container'
 				}
 			>
-				{viewDetail.isOpened ? <div className="overlay"></div> : ''}
-				{pokemons.map((_) => (
-					<div onClick={() => selectPokemon(_.id)}>
-						<PokemonList
-							key={_.id}
-							abilities={_.abilities}
-							id={_.id}
-							img={_.sprites.front_default}
-							name={_.name}
-							viewDetail={viewDetail}
-							setDetail={setDetail}
-						/>
-					</div>
-				))}
+				{viewDetail.isOpened && <div className="overlay"></div>}
+
+				{pokemons.map((_) => {
+					return (
+						<div key={_.name} onClick={() => selectPokemon(_.id)}>
+							<PokemonList
+								abilities={_.abilities}
+								id={_.id}
+								img={_.sprites.front_default}
+								name={_.name}
+								viewDetail={viewDetail}
+								setDetail={setDetail}
+							/>
+						</div>
+					);
+				})}
 			</section>
 		</>
 	);
