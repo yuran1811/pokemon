@@ -1,5 +1,5 @@
 import { pokeapiGet } from 'constants/links';
-import { Pokemons, Pokemon, PokemonDetailProps } from '@mytypes/Pokemon';
+import { Pokemon, PokemonDetailProps, Pokemons } from '@mytypes/Pokemon';
 import PokemonCollection from './components/pokemons/PokemonCollection';
 import ErrorContent from './components/shared/ErrorContent';
 import Header from './components/partials/Header';
