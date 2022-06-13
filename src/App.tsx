@@ -1,63 +1,74 @@
-import { Pokemon, PokemonDetailProps, Pokemons } from './shared/types';
-import PokemonCollection from './components/PokemonCollection';
-import { FC, useEffect, useState, useCallback } from 'react';
+import { pokeapiGet } from 'constants/links';
+import { Pokemons, Pokemon, PokemonDetailProps } from '@mytypes/Pokemon';
+import PokemonCollection from './components/pokemons/PokemonCollection';
+import ErrorContent from './components/shared/ErrorContent';
+import Header from './components/partials/Header';
+import Footer from './components/partials/Footer';
+import Home from './components/home/Home';
+import { FC, useCallback, useEffect, useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
 import axios from 'axios';
-import './App.scss';
 
 const App: FC = () => {
-	const [pokemons, setPokemons] = useState<Pokemon[]>([]);
 	const [nextUrl, setNextUrl] = useState<string>('');
 	const [loading, setLoading] = useState<boolean>(true);
+	const [pokemons, setPokemons] = useState<Pokemon[]>([]);
+	const [allPokemon, setAllPokemon] = useState<Pokemon[]>([]);
 	const [viewDetail, setDetail] = useState<PokemonDetailProps>({
 		id: 0,
 		isOpened: false,
 	});
 
+	const getAllPokemon = useCallback(async () => {
+		const { data } = await axios.get(`${pokeapiGet}?limit=100&offset=0`);
+		data.results.forEach(async (_: Pokemons) => {
+			const { data } = await axios.get(`${pokeapiGet}/${_.name}`);
+			setAllPokemon((p) => [...p, data]);
+		});
+	}, []);
+
 	const loadNextPage = useCallback(async () => {
 		setLoading(true);
 
-		const { data } = await axios.get(
-			nextUrl || 'https://pokeapi.co/api/v2/pokemon?limit=20&offset=0'
-		);
-
+		const { data } = await axios.get(nextUrl || `${pokeapiGet}?limit=20&offset=0`);
 		data.results.forEach(async (_: Pokemons) => {
-			const { data } = await axios.get(
-				`https://pokeapi.co/api/v2/pokemon/${_.name}`
-			);
-
+			const { data } = await axios.get(`${pokeapiGet}/${_.name}`);
 			setPokemons((p) => [...p, data]);
 		});
-
 		setNextUrl(data.next);
+
 		setLoading(false);
 	}, [nextUrl]);
 
 	useEffect(() => {
 		loadNextPage();
+		// getAllPokemon();
 
 		return () => {};
 	}, []);
 
 	return (
-		<div className="App">
-			<div className={!viewDetail.isOpened ? "container": "container overlay"}>
-				<header className="pokemon-header">Pokemon</header>
-
-				<PokemonCollection
-					pokemons={pokemons}
-					viewDetail={viewDetail}
-					setDetail={setDetail}
-				/>
-
-				{!viewDetail.isOpened && (
-					<button
-						className="load-more"
-						onClick={() => loadNextPage()}
-					>
-						{!loading ? 'More Pokemons' : 'Loading ...'}
-					</button>
-				)}
-			</div>
+		<div className='relative h-[100vh]'>
+			<Header />
+			<Routes>
+				<Route path='/' element={<Home />}></Route>
+				<Route
+					path='/pokemons/*'
+					element={
+						<PokemonCollection
+							loading={loading}
+							pokemons={pokemons}
+							allPokemon={allPokemon}
+							viewDetail={viewDetail}
+							setDetail={setDetail}
+							setPokemons={setPokemons}
+							loadNextPage={loadNextPage}
+						/>
+					}
+				></Route>
+				<Route path='*' element={<ErrorContent />}></Route>
+			</Routes>
+			<Footer />
 		</div>
 	);
 };

@@ -1,12 +1,14 @@
 import App from './App';
 import { StrictMode } from 'react';
 import { render } from 'react-dom';
-
-const rootEle = document.getElementById('root') as HTMLElement;
+import { BrowserRouter } from 'react-router-dom';
+import './_index.scss';
 
 render(
-	<StrictMode>
-		<App />
-	</StrictMode>,
-	rootEle
+	<BrowserRouter>
+		<StrictMode>
+			<App />
+		</StrictMode>
+	</BrowserRouter>,
+	document.getElementById('root') as HTMLElement
 );

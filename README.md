@@ -4,8 +4,10 @@
 
 ### Front End
 
--   ReactJS
+-   React (v17)
+-   React Router (v6)
 -   Typescript
+-   TailwindCSS
 -   SASS (SCSS)
 
 ### Back End
