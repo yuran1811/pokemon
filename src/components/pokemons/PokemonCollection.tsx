@@ -1,25 +1,25 @@
-import { PokemonAction, PokemonCollectionProps, PokemonDetail } from '@mytypes/Pokemon';
-import Pagination from '../shared/Pagination';
+import { Pokemon, PokemonAction, PokemonCollectionProps } from 'shared/types';
+import Pagination from 'components/shared/Pagination';
 import PokemonLoadMore from './PokemonLoadMore';
 import PokemonSearch from './PokemonSearch';
 import PokemonList from './PokemonList';
 import { FC, useCallback, useEffect, useReducer } from 'react';
 
 interface stateReducerType {
-	pokemons: PokemonDetail[];
+	pokemons: Pokemon[];
 }
 
 const _st = {
-	active: 'flexcentercol flex-wrap text-ctbackground font-semibold mt-[4rem] h-[100vh] overflow-y-hidden',
+	active: 'flexcentercol flex-wrap text-ctbackground font-semibold mt-[4rem]', // h-[calc(99vh)] overflow-y-hidden
 	default: 'flexcentercol flex-wrap text-ctbackground font-semibold mt-[4rem]',
 };
 
 const PokemonCollection: FC<PokemonCollectionProps> = (props) => {
-	const { loading, pokemons, allPokemon, viewDetail, setDetail, setPokemons, loadNextPage } = props;
+	const { canLoad, loading, pokemons, viewDetail, setDetail, setPokemons, loadNextPage, loadAllPokemons } = props;
 
 	const [listPokes, setListPokes] = useReducer(
 		(listPokes: stateReducerType, action: PokemonAction): stateReducerType => {
-			return !action.name ? { pokemons } : { pokemons: pokemons.filter((_) => _.name.toLowerCase().includes(action.name)) };
+			return !action.name ? { pokemons } : { pokemons: pokemons.filter((_) => _.name.includes(action.name)) };
 		},
 		{ pokemons }
 	);
@@ -39,8 +39,9 @@ const PokemonCollection: FC<PokemonCollectionProps> = (props) => {
 
 	return (
 		<section className={viewDetail.isOpened ? _st.active : _st.default}>
-			{!viewDetail.isOpened && <PokemonSearch placeholder='Type to search' setListPokes={setListPokes} />}
-			{viewDetail.isOpened && <div className='w-[100vw] h-[100vh]'></div>}
+			<PokemonSearch placeholder='Type to search' setListPokes={setListPokes} />
+
+			{viewDetail.isOpened && <div className='z-[9] fixed top-0 left-0 w-[100vw] h-[100vh] bg-slate-900 opacity-80'></div>}
 
 			<div className='flexcenter flex-wrap px-12 my-8'>
 				{!listPokes.pokemons.length ? (
@@ -54,8 +55,13 @@ const PokemonCollection: FC<PokemonCollectionProps> = (props) => {
 				)}
 			</div>
 
-			{/* {!viewDetail.isOpened && <Pagination allPokemon={allPokemon} prev={true} next={true} />} */}
-			{!viewDetail.isOpened && <PokemonLoadMore loading={loading} loadNextPage={loadNextPage} />}
+			{/* <Pagination pokemons={pokemons} prev={true} next={true} /> */}
+			{canLoad && (
+				<>
+					<PokemonLoadMore label='More Pokemons' loading={loading} loadNextPage={loadNextPage} />
+					<PokemonLoadMore label='Load all pokemons' loading={loading} loadAllPokemons={loadAllPokemons} />
+				</>
+			)}
 		</section>
 	);
 };

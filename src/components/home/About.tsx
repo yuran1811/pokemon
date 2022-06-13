@@ -1,6 +1,5 @@
-import { ctUnderline } from 'utils/getStyle';
-import { pokeapi } from 'constants/links';
-import technologies from 'constants/technologies';
+import { pokeapi, technologies } from '../../constants';
+import { ctUnderline } from 'utils';
 import { FC } from 'react';
 
 const About: FC = () => (
@@ -22,7 +21,7 @@ const About: FC = () => (
 						className={`relative text-ctlinkcolor font-semibold ${ctUnderline} after:transition-all after:duration-300 after:ease-in-out after:origin-center after:scale-x-0 hover:after:scale-x-100`}
 						href={pokeapi}
 						target='_blank'
-						rel='noopener'
+						rel='noopener noreferrer'
 					>
 						Poke API
 					</a>

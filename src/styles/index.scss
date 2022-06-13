@@ -14,7 +14,7 @@
 			@apply p-0 m-0 select-none box-border;
 		}
 		&::-webkit-scrollbar {
-			@apply w-0;
+			@apply w-1 h-1 bg-ctcolor;
 		}
 	}
 
@@ -31,7 +31,7 @@
 	button.pagination-btn {
 		--rotate: 45deg;
 
-		@apply relative cursor-pointer rounded-[50%] w-20 h-20 bg-ctcolor;
+		@apply relative cursor-pointer rounded-[50%] min-w-[5rem] min-h-[5rem] w-20 h-20 bg-ctcolor;
 
 		&::before,
 		&::after {

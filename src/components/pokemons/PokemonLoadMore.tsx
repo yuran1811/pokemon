@@ -1,13 +1,20 @@
-import { PokemonLoadMoreProps } from '@mytypes/Pokemon';
+import { PokemonLoadMoreProps } from 'shared/types';
 import LoadMoreButton from '../shared/LoadMoreButton';
 import { FC } from 'react';
 
 const PokemonLoadMore: FC<PokemonLoadMoreProps> = (props) => {
-	const { loading, loadNextPage, ...attr } = props;
+	const {label, loading, loadNextPage, loadAllPokemons, ...attr } = props;
+
+	const handleOnClick = () => {
+		if (!loading) {
+			loadNextPage && loadNextPage();
+			loadAllPokemons && loadAllPokemons();
+		}
+	};
 
 	return (
-		<LoadMoreButton {...attr} onClick={() => !loading && loadNextPage()}>
-			{!loading ? 'More Pokemons' : 'Loading ...'}
+		<LoadMoreButton {...attr} onClick={handleOnClick}>
+			{!loading ? label : 'Loading ...'}
 		</LoadMoreButton>
 	);
 };

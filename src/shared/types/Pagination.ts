@@ -1,7 +1,7 @@
-import { Pokemon } from '@mytypes/Pokemon';
+import { Pokemon } from 'shared/types';
 
 export interface PaginationProps {
-	allPokemon: Pokemon[];
+	pokemons: Pokemon[];
 	prev: boolean;
 	next: boolean;
 }

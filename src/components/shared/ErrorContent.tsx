@@ -1,11 +1,17 @@
-import { errText } from 'utils/getStyle';
+import { ctUnderline, errText } from 'utils';
 import { FC } from 'react';
+import { Link } from 'react-router-dom';
 
 const ErrorContent: FC = () => (
 	<div className='p-[5rem]'>
-		<div className={`${errText} text-[5rem]`}>Error</div>
 		<p className={`${errText} text-[15rem]`}>404</p>
 		<div className={`${errText} text-[5rem]`}>Page not found</div>
+		<div className={`${errText} text-[3rem] mt-8`}>
+			Return{' '}
+			<Link to='/' className={`relative ${ctUnderline}`}>
+				Home
+			</Link>
+		</div>
 	</div>
 );
 

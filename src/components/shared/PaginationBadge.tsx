@@ -1,4 +1,4 @@
-import { PaginationBadgeProps } from '@mytypes/Pagination';
+import { PaginationBadgeProps } from 'shared/types';
 import { FC } from 'react';
 
 const PaginationBadge: FC<PaginationBadgeProps> = ({ idx }) => (
