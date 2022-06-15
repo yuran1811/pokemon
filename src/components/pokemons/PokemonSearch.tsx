@@ -3,7 +3,7 @@ import SearchBar from '../shared/SearchBar';
 import { ChangeEvent, FC, HTMLProps, useCallback, useEffect, useState } from 'react';
 
 const PokemonSearch: FC<PokemonSearchProps & HTMLProps<HTMLInputElement>> = (props) => {
-	const { setListPokes, ...attr } = props;
+	const { setListPokesSearch, ...attr } = props;
 
 	const [inpVal, setInpVal] = useState(props.value || '');
 
@@ -12,7 +12,7 @@ const PokemonSearch: FC<PokemonSearchProps & HTMLProps<HTMLInputElement>> = (pro
 	}, []);
 
 	useEffect(() => {
-		setListPokes({ name: inpVal.toString().toLowerCase() });
+		setListPokesSearch({ name: inpVal.toString().toLowerCase() });
 	}, [inpVal]);
 
 	return <SearchBar {...attr} onChange={handleOnChange} />;

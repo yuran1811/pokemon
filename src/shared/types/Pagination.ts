@@ -1,15 +1,17 @@
-import { Pokemon } from 'shared/types';
+import { Dispatch, SetStateAction } from 'react';
 
 export interface PaginationProps {
-	pokemons: Pokemon[];
-	prev: boolean;
-	next: boolean;
+	badgesLength: number;
+	setPageIdx?: Dispatch<SetStateAction<number>>;
 }
 
 export interface PaginationBadgeProps {
 	idx: string | number;
+	isActive?: boolean;
+	setBadgeIdx: Dispatch<SetStateAction<number>>;
 }
 
 export interface PaginationButtonProps {
 	type: string;
+	cpnRef?: React.MutableRefObject<any>;
 }

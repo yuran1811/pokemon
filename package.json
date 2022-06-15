@@ -1,5 +1,5 @@
 {
-	"homepage": "http://yuran1811.github.io/pokemon/",
+	"homepage": "http://yuran1811.github.io/pokemon/pokemons",
 	"name": "pokemon",
 	"version": "1.0.0",
 	"description": "Pokemon",
@@ -13,6 +13,7 @@
 		"react-router-dom": "^6.3.0",
 		"react-scripts": "5.0.1",
 		"sass": "^1.52.2",
+		"swiper": "^8.2.4",
 		"typescript": "^4.7.3"
 	},
 	"devDependencies": {

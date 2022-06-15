@@ -1,65 +1,121 @@
-import { Pokemon, PokemonAction, PokemonCollectionProps } from 'shared/types';
-import Pagination from 'components/shared/Pagination';
+import { useLocalStore } from 'hooks';
+import { standardizePokemon } from 'utils';
+import { NUM_POKE, NUM_POKE_LOAD, pokeapiGet } from '../../constants';
+import { Pokemon, PokemonAction, PokemonDetailProps, Pokemons } from 'shared/types';
+import Overlay from 'components/shared/Overlay';
+import PokemonPagination from './PokemonPagination';
 import PokemonLoadMore from './PokemonLoadMore';
 import PokemonSearch from './PokemonSearch';
 import PokemonList from './PokemonList';
-import { FC, useCallback, useEffect, useReducer } from 'react';
+import { FC, useCallback, useEffect, useReducer, useRef, useState } from 'react';
+import axios from 'axios';
 
 interface stateReducerType {
 	pokemons: Pokemon[];
 }
 
-const _st = {
-	active: 'flexcentercol flex-wrap text-ctbackground font-semibold mt-[4rem]', // h-[calc(99vh)] overflow-y-hidden
-	default: 'flexcentercol flex-wrap text-ctbackground font-semibold mt-[4rem]',
-};
+const PokemonCollection: FC = () => {
+	const [localData, setLocalData] = useLocalStore<Pokemon[]>('pokemons', [], '[]');
+	const [pageIdx, setPageIdx] = useState(1);
+	const [nextUrl, setNextUrl] = useState<string>('');
+	const [canLoad, setCanLoad] = useState<boolean>(true);
+	const [loading, setLoading] = useState<boolean>(false);
+	const [pokemons, setPokemons] = useState<Pokemon[]>(localData);
+	const [loadTimes, setLoadTimes] = useState<number>(localData.length / NUM_POKE_LOAD);
+	const [pokesEachPage, setPokesEachPage] = useState<Pokemon[]>(pokemons.slice(0, pageIdx * NUM_POKE_LOAD));
+	const [viewDetail, setDetail] = useState<PokemonDetailProps>({
+		id: 0,
+		isOpened: false,
+	});
 
-const PokemonCollection: FC<PokemonCollectionProps> = (props) => {
-	const { canLoad, loading, pokemons, viewDetail, setDetail, setPokemons, loadNextPage, loadAllPokemons } = props;
-
-	const [listPokes, setListPokes] = useReducer(
-		(listPokes: stateReducerType, action: PokemonAction): stateReducerType => {
-			return !action.name ? { pokemons } : { pokemons: pokemons.filter((_) => _.name.includes(action.name)) };
+	const [listPokesSearch, setListPokesSearch] = useReducer(
+		(listPokesSearch: stateReducerType, action: PokemonAction): stateReducerType => {
+			return !action.name ? { pokemons: [] } : { pokemons: pokemons.filter((_) => _.name.includes(action.name)) };
 		},
 		{ pokemons }
 	);
+
+	const loadAllPokemons = useCallback(async () => {
+		const offsetLength = NUM_POKE - pokemons.length;
+		if (offsetLength < 0) {
+			setCanLoad(false);
+			return;
+		}
+
+		setLoading(true);
+
+		const { data } = await axios.get(`${pokeapiGet}?limit=${NUM_POKE - pokemons.length}&offset=${NUM_POKE_LOAD * loadTimes}`);
+		data.results.forEach(async (_: Pokemons) => {
+			const { data } = await axios.get(`${pokeapiGet}/${_.name}`);
+			setPokemons((p) => [...p, ...data]);
+		});
+		setCanLoad(false);
+
+		setLoading(false);
+	}, [pokemons]);
+
+	const loadNextPage = useCallback(async () => {
+		setLoading(true);
+
+		const { data } = await axios.get(nextUrl || `${pokeapiGet}?limit=${NUM_POKE_LOAD}&offset=${loadTimes * NUM_POKE_LOAD}`);
+		data.results.forEach(async (_: Pokemons) => {
+			const { data } = await axios.get(`${pokeapiGet}/${_.name}`);
+			setPokemons((p) => [...p, data]);
+		});
+		setNextUrl(data.next);
+		setLoadTimes((t) => t + 1);
+		setCanLoad(true);
+
+		setLoading(false);
+	}, [nextUrl]);
 
 	const selectPokemon = useCallback(
 		(id: number) => {
 			!viewDetail.isOpened && setDetail({ id, isOpened: true });
 		},
-		[viewDetail]
+		[viewDetail.isOpened]
 	);
 
 	useEffect(() => {
-		setListPokes({ name: '' });
+		!localData.length && loadNextPage();
+	}, []);
 
-		return () => {};
+	useEffect(() => {
+		setListPokesSearch({ name: '' });
+		setLocalData(standardizePokemon(pokemons));
 	}, [pokemons]);
 
+	useEffect(() => {
+		setPokesEachPage(() => pokemons.slice((pageIdx - 1) * NUM_POKE_LOAD, pageIdx * NUM_POKE_LOAD));
+	}, [pageIdx]);
+
+	const thisCollection = useRef<HTMLDivElement>(null);
+
+	useEffect(() => {
+		thisCollection.current && thisCollection.current.scrollIntoView({ behavior: 'smooth' });
+	}, [pokesEachPage]);
+
 	return (
-		<section className={viewDetail.isOpened ? _st.active : _st.default}>
-			<PokemonSearch placeholder='Type to search' setListPokes={setListPokes} />
+		<section ref={thisCollection} className='flexcentercol flex-wrap text-ctbackground font-semibold mt-[4rem]'>
+			<PokemonSearch placeholder='Type to search' setListPokesSearch={setListPokesSearch} />
 
-			{viewDetail.isOpened && <div className='z-[9] fixed top-0 left-0 w-[100vw] h-[100vh] bg-slate-900 opacity-80'></div>}
+			{viewDetail.isOpened && viewDetail.id && (
+				<Overlay zIdx='z-[11]' onClick={() => setDetail({ id: 0, isOpened: !viewDetail.isOpened })} />
+			)}
 
-			<div className='flexcenter flex-wrap px-12 my-8'>
-				{!listPokes.pokemons.length ? (
-					<div className='text-[4rem] text-center text-ctcolor p-8'>No Poke</div>
-				) : (
-					listPokes.pokemons.map((_) => (
-						<div key={_.name} onClick={() => selectPokemon(_.id)}>
-							<PokemonList pokemon={_} viewDetail={viewDetail} setDetail={setDetail} />
-						</div>
-					))
-				)}
-			</div>
+			<PokemonList
+				listPokes={{ pokemons: listPokesSearch.pokemons.length ? listPokesSearch.pokemons : pokesEachPage }}
+				viewDetail={viewDetail}
+				selectPokemon={selectPokemon}
+				setDetail={setDetail}
+			/>
 
-			{/* <Pagination pokemons={pokemons} prev={true} next={true} /> */}
+			<PokemonPagination pokemons={pokemons} setPageIdx={setPageIdx} />
+
 			{canLoad && (
 				<>
-					<PokemonLoadMore label='More Pokemons' loading={loading} loadNextPage={loadNextPage} />
-					<PokemonLoadMore label='Load all pokemons' loading={loading} loadAllPokemons={loadAllPokemons} />
+					<PokemonLoadMore label='More Pokemons' pokemons={pokemons} loading={loading} loadNextPage={loadNextPage} />
+					{/* <PokemonLoadMore label='Load all pokemons' pokemons={pokemons} loading={loading} loadAllPokemons={loadAllPokemons} /> */}
 				</>
 			)}
 		</section>

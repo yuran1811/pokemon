@@ -30,18 +30,25 @@ export interface PokemonDetailProps {
 	readonly isOpened: boolean;
 }
 
-export interface PokemonCollectionProps {
-	readonly canLoad: boolean;
-	readonly loading: boolean;
-	readonly pokemons: Pokemon[];
-	readonly viewDetail: PokemonDetailProps;
-	readonly loadNextPage: Function;
-	readonly loadAllPokemons: Function;
-	readonly setDetail: Dispatch<SetStateAction<PokemonDetailProps>>;
-	readonly setPokemons: Dispatch<SetStateAction<Pokemon[]>>;
-}
+// export interface PokemonCollectionProps {
+// 	readonly canLoad: boolean;
+// 	readonly loading: boolean;
+// 	readonly pokemons: Pokemon[];
+// 	readonly viewDetail: PokemonDetailProps;
+// 	readonly loadNextPage: Function;
+// 	readonly loadAllPokemons: Function;
+// 	readonly setDetail: Dispatch<SetStateAction<PokemonDetailProps>>;
+// 	readonly setPokemons: Dispatch<SetStateAction<Pokemon[]>>;
+// }
 
 export interface PokemonListProps {
+	readonly listPokes: { pokemons: Pokemon[] };
+	readonly viewDetail: PokemonDetailProps;
+	readonly selectPokemon: (id: number) => void;
+	readonly setDetail: Dispatch<SetStateAction<PokemonDetailProps>>;
+}
+
+export interface PokemonCardProps {
 	readonly pokemon: Pokemon;
 	readonly viewDetail: PokemonDetailProps;
 	readonly setDetail: Dispatch<SetStateAction<PokemonDetailProps>>;
@@ -52,10 +59,11 @@ export interface PokemonContextProps {
 }
 
 export interface PokemonSearchProps {
-	setListPokes: Dispatch<PokemonAction>;
+	setListPokesSearch: Dispatch<PokemonAction>;
 }
 
 export interface PokemonLoadMoreProps {
+	pokemons: Pokemon[];
 	label: string;
 	loading: boolean;
 	loadAllPokemons?: Function;

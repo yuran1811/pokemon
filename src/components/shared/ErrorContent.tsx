@@ -1,3 +1,4 @@
+import { hostUrl } from '../../constants';
 import { ctUnderline, errText } from 'utils';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
@@ -8,7 +9,7 @@ const ErrorContent: FC = () => (
 		<div className={`${errText} text-[5rem]`}>Page not found</div>
 		<div className={`${errText} text-[3rem] mt-8`}>
 			Return{' '}
-			<Link to='/' className={`relative ${ctUnderline}`}>
+			<Link to={`${hostUrl}/`} className={`relative ${ctUnderline}`}>
 				Home
 			</Link>
 		</div>

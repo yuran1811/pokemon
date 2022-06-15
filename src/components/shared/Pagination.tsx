@@ -1,24 +1,78 @@
-import { NUM_POKE_LOAD } from '../../constants';
 import { PaginationProps } from 'shared/types';
-import PaginationButton from './PaginationButton';
 import PaginationBadge from './PaginationBadge';
-import { FC } from 'react';
+import PaginationButton from './PaginationButton';
+import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Swiper, SwiperProps, SwiperSlide } from 'swiper/react';
+import { Navigation, A11y } from 'swiper';
+import 'swiper/css';
 
-const Pagination: FC<PaginationProps> = ({ pokemons, prev, next }) => {
-	const badgesLength = pokemons.length / NUM_POKE_LOAD;
-	const badges = [];
+const Paginations: FC<PaginationProps> = (props) => {
+	const { badgesLength } = props;
 
-	for (let i = 0; i < badgesLength; i++) badges.push(<PaginationBadge key={i} idx={+i + 1} />);
+	const prevBtn = useRef(null);
+	const nextBtn = useRef(null);
+	const [badgeIdx, setBadgeIdx] = useState(1);
+	const [badges, setBadges] = useState<Set<number>>(new Set());
+
+	const geneBadges = useCallback(() => {
+		for (let i = 1; i <= badgesLength; i++) setBadges((badges) => badges.add(i));
+	}, [badgesLength]);
+
+	const swiperOptions = useMemo<SwiperProps>(
+		() => ({
+			modules: [Navigation, A11y],
+			centeredSlides: true,
+			slidesPerView: 10,
+			spaceBetween: 100,
+			slideToClickedSlide: true,
+			navigation: {
+				prevEl: prevBtn.current,
+				nextEl: nextBtn.current,
+			},
+			breakpoints: {
+				1120: {
+					slidesPerView: 9,
+					spaceBetween: 90,
+				},
+				800: {
+					slidesPerView: 5,
+					spaceBetween: 50,
+				},
+				480: {
+					slidesPerView: 3,
+					spaceBetween: 30,
+				},
+			},
+			onActiveIndexChange: ({ activeIndex }) => setBadgeIdx(activeIndex + 1),
+		}),
+		[]
+	);
+
+	useEffect(() => {
+		geneBadges();
+	}, [badgesLength]);
+
+	useEffect(() => {
+		props?.setPageIdx && props.setPageIdx(badgeIdx);
+	}, [badgeIdx, badgesLength]);
 
 	return (
 		<div className='flexcenter justify-between w-[70%] p-[2rem]'>
-			{prev && <PaginationButton type='prev' />}
+			<div className='flex justify-start items-center mx-8 w-full overflow-x-auto'>
+				<Swiper {...swiperOptions}>
+					<PaginationButton cpnRef={prevBtn} type='prev' />
 
-			<div className='flexcenter mx-[1rem] overflow-x-auto'>{badges.map((_) => _)}</div>
+					{[...badges].map((idx) => (
+						<SwiperSlide key={idx}>
+							<PaginationBadge idx={idx} setBadgeIdx={setBadgeIdx} />
+						</SwiperSlide>
+					))}
 
-			{next && <PaginationButton type='next' />}
+					<PaginationButton cpnRef={nextBtn} type='next' />
+				</Swiper>
+			</div>
 		</div>
 	);
 };
 
-export default Pagination;
+export default Paginations;

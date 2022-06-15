@@ -17,7 +17,14 @@ export const standardizePokemon = (pokemons: Pokemon[]): Pokemon[] => {
 		})),
 	});
 
-	const list: Pokemon[] = pokemons.map((_) => getPokemonMini(_));
+	const listId = new Set<number>([]);
 
-	return list;
+	pokemons
+		.sort((a, b) => a.id - b.id)
+		.forEach((_, idx) => {
+			if (!listId.has(_.id)) listId.add(_.id);
+			else pokemons.splice(idx, 1);
+		});
+
+	return pokemons.map((_) => getPokemonMini(_));
 };

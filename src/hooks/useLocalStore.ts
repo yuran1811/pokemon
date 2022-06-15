@@ -1,6 +1,6 @@
 import { Dispatch, useEffect, useState } from 'react';
 
-const getInitialValue = (key: string, value: any, defaultValue: string): any => {
+const getInitialValue = <T>(key: string, value: T, defaultValue: string): T => {
 	const localData = JSON.parse(localStorage.getItem(key) ?? defaultValue);
 	if (localData) return localData;
 
@@ -8,10 +8,9 @@ const getInitialValue = (key: string, value: any, defaultValue: string): any => 
 };
 
 export const useLocalStore = <T>(key: string, value: T, defaultValue: string): [T, Dispatch<T>] => {
-	const [data, setData] = useState(() => getInitialValue(key, value, defaultValue));
+	const [data, setData] = useState(() => getInitialValue<T>(key, value, defaultValue));
 
 	useEffect(() => {
-		console.log('useLocalData from hook: ', data);
 		localStorage.setItem(key, JSON.stringify(data));
 	}, [data]);
 

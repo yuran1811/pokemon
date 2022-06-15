@@ -1,5 +1,12 @@
 # Pokemon
 
+## Features
+
+-   [x] Show pokemons
+-   [] Search pokemons
+-   [] More pokemon's info
+-   [] Filter pokemons following options
+
 ## Technologies
 
 ### Front End
@@ -9,6 +16,7 @@
 -   Typescript
 -   TailwindCSS
 -   SASS (SCSS)
+-   Swiper
 
 ### Back End
 
