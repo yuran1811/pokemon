@@ -3,7 +3,7 @@ import { PaginationBadgeProps } from 'shared/types';
 import { useSwiperSlide } from 'swiper/react';
 import { FC, HTMLProps } from 'react';
 
-const PaginationBadge: FC<PaginationBadgeProps & HTMLProps<HTMLDivElement>> = ({ idx, setBadgeIdx }) => {
+export const PaginationBadge: FC<PaginationBadgeProps & HTMLProps<HTMLDivElement>> = ({ idx, setBadgeIdx }) => {
 	const { isActive } = useSwiperSlide();
 
 	return (
@@ -15,5 +15,3 @@ const PaginationBadge: FC<PaginationBadgeProps & HTMLProps<HTMLDivElement>> = ({
 		</div>
 	);
 };
-
-export default PaginationBadge;

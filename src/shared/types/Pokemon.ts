@@ -22,7 +22,7 @@ export interface Pokemons {
 }
 
 export interface PokemonAction {
-	readonly name: string;
+	readonly searchValue: string;
 }
 
 export interface PokemonDetailProps {
@@ -30,19 +30,8 @@ export interface PokemonDetailProps {
 	readonly isOpened: boolean;
 }
 
-// export interface PokemonCollectionProps {
-// 	readonly canLoad: boolean;
-// 	readonly loading: boolean;
-// 	readonly pokemons: Pokemon[];
-// 	readonly viewDetail: PokemonDetailProps;
-// 	readonly loadNextPage: Function;
-// 	readonly loadAllPokemons: Function;
-// 	readonly setDetail: Dispatch<SetStateAction<PokemonDetailProps>>;
-// 	readonly setPokemons: Dispatch<SetStateAction<Pokemon[]>>;
-// }
-
 export interface PokemonListProps {
-	readonly listPokes: { pokemons: Pokemon[] };
+	readonly listPokes: {pokemons: Pokemon[], change: number};
 	readonly viewDetail: PokemonDetailProps;
 	readonly selectPokemon: (id: number) => void;
 	readonly setDetail: Dispatch<SetStateAction<PokemonDetailProps>>;
@@ -63,9 +52,9 @@ export interface PokemonSearchProps {
 }
 
 export interface PokemonLoadMoreProps {
-	pokemons: Pokemon[];
-	label: string;
-	loading: boolean;
+	readonly pokemons: Pokemon[];
+	readonly label: string;
+	readonly loading: boolean;
 	loadAllPokemons?: Function;
 	loadNextPage?: Function;
 }

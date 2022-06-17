@@ -3,9 +3,9 @@
 ## Features
 
 -   [x] Show pokemons
--   [] Search pokemons
--   [] More pokemon's info
--   [] Filter pokemons following options
+-   [x] Search pokemons
+-   [ ] More pokemon's info
+-   [ ] Filter pokemons following options
 
 ## Technologies
 
@@ -16,7 +16,7 @@
 -   Typescript
 -   TailwindCSS
 -   SASS (SCSS)
--   Swiper
+-   Libs: SwiperJS
 
 ### Back End
 

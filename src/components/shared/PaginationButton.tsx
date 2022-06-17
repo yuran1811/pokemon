@@ -1,8 +1,8 @@
 import { PaginationButtonProps } from 'shared/types';
-import { FC, HTMLProps } from 'react';
 import { useSwiper } from 'swiper/react';
+import { FC, HTMLProps } from 'react';
 
-const PaginationButton: FC<PaginationButtonProps & HTMLProps<HTMLButtonElement>> = (props) => {
+export const PaginationButton: FC<PaginationButtonProps & HTMLProps<HTMLButtonElement>> = (props) => {
 	const { cpnRef, type, ...others } = props;
 
 	const swiper = useSwiper();
@@ -18,5 +18,3 @@ const PaginationButton: FC<PaginationButtonProps & HTMLProps<HTMLButtonElement>>
 		></button>
 	);
 };
-
-export default PaginationButton;

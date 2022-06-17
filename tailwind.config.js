@@ -7,6 +7,7 @@ module.exports = {
 		extend: {},
 		colors: {
 			...colors,
+			
 			nofill: 'transparent',
 			current: 'currentColor',
 

@@ -1,4 +1,5 @@
 import { PokemonCardProps } from 'shared/types';
+import { CloseIcon, InfoIcon } from 'components/icons';
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 
 const PokemonCard: FC<PokemonCardProps> = (props) => {
@@ -7,6 +8,7 @@ const PokemonCard: FC<PokemonCardProps> = (props) => {
 	const imgUrl = sprites.front_default;
 
 	const [isSelected, setSelected] = useState(false);
+
 	const backgroundStyles = useMemo(
 		() => ({
 			background: `url(${imgUrl})`,
@@ -33,11 +35,12 @@ const PokemonCard: FC<PokemonCardProps> = (props) => {
 			{isSelected && (
 				<section className='z-[12] lg:w-[80%] lg:max-w-[70rem] fixed m-auto rounded-[2.5rem] bg-ctwhite w-[30rem] translate-center'>
 					<div className='z-[2] relative lg:flex-row flex-col flexcenter rounded-[inherit]'>
-						<div className='close-btn' onClick={closeDetail}></div>
+						<InfoIcon url={name} />
+						<CloseIcon onClick={closeDetail} />
 
 						<div className='flexcentercol w-full pt-24 rounded-[inherit] bg-gradient-to-t from-ctgoldlight to-yellow-100'>
 							<p className='lg:text-[4.5rem] font-bold text-[3.5rem] text-ctgold capitalize'>{name}</p>
-							<div className='w-[24rem] h-[24rem]' style={backgroundStyles}></div>
+							<div className='lg:w-[24rem] w-[18rem] lg:h-[24rem] h-[18rem]' style={backgroundStyles}></div>
 						</div>
 
 						<div className='detail-skill flex flex-wrap self-start gap-[0.5rem] w-full px-[2rem] py-[1rem] text-start'>

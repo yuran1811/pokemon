@@ -5,10 +5,10 @@ import { BrowserRouter } from 'react-router-dom';
 import './styles/index.css';
 
 render(
-	<BrowserRouter>
-		<StrictMode>
+	<StrictMode>
+		<BrowserRouter>
 			<App />
-		</StrictMode>
-	</BrowserRouter>,
+		</BrowserRouter>
+	</StrictMode>,
 	document.getElementById('root') as HTMLElement
 );

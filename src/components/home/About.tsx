@@ -1,5 +1,5 @@
 import { pokeapi, technologies } from '../../constants';
-import { ctUnderline } from 'utils';
+import { HighlightLink } from 'components/interfaces';
 import { FC } from 'react';
 
 const About: FC = () => (
@@ -18,15 +18,7 @@ const About: FC = () => (
 
 			<div className='flexcentercol w-full mt-[4rem]'>
 				<p className='text[3rem]'>
-					This site use{' '}
-					<a
-						className={`relative text-ctlinkcolor font-semibold ${ctUnderline} after:transition-all after:duration-300 after:ease-in-out after:origin-center after:scale-x-0 hover:after:scale-x-100`}
-						href={pokeapi}
-						target='_blank'
-						rel='noopener noreferrer'
-					>
-						Poke API
-					</a>
+					This site use <HighlightLink url={pokeapi}>Poke API</HighlightLink>
 				</p>
 			</div>
 		</div>

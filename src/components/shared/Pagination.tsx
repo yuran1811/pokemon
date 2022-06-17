@@ -1,12 +1,11 @@
 import { PaginationProps } from 'shared/types';
-import PaginationBadge from './PaginationBadge';
-import PaginationButton from './PaginationButton';
+import { PaginationBadge, PaginationButton } from 'components/shared';
 import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Swiper, SwiperProps, SwiperSlide } from 'swiper/react';
 import { Navigation, A11y } from 'swiper';
 import 'swiper/css';
 
-const Paginations: FC<PaginationProps> = (props) => {
+export const Pagination: FC<PaginationProps> = (props) => {
 	const { badgesLength } = props;
 
 	const prevBtn = useRef(null);
@@ -22,25 +21,31 @@ const Paginations: FC<PaginationProps> = (props) => {
 		() => ({
 			modules: [Navigation, A11y],
 			centeredSlides: true,
-			slidesPerView: 10,
-			spaceBetween: 100,
 			slideToClickedSlide: true,
 			navigation: {
 				prevEl: prevBtn.current,
 				nextEl: nextBtn.current,
 			},
 			breakpoints: {
-				1120: {
-					slidesPerView: 9,
-					spaceBetween: 90,
+				1280: {
+					slidesPerView: 6,
+					spaceBetween: 20,
 				},
-				800: {
+				1024: {
 					slidesPerView: 5,
-					spaceBetween: 50,
+					spaceBetween: 20,
 				},
-				480: {
+				768: {
+					slidesPerView: 4,
+					spaceBetween: 20,
+				},
+				640: {
 					slidesPerView: 3,
-					spaceBetween: 30,
+					spaceBetween: 10,
+				},
+				0: {
+					slidesPerView: 2,
+					spaceBetween: 10,
 				},
 			},
 			onActiveIndexChange: ({ activeIndex }) => setBadgeIdx(activeIndex + 1),
@@ -49,17 +54,18 @@ const Paginations: FC<PaginationProps> = (props) => {
 	);
 
 	useEffect(() => {
+		// console.log('gene badge');
 		geneBadges();
 	}, [badgesLength]);
 
 	useEffect(() => {
 		props?.setPageIdx && props.setPageIdx(badgeIdx);
-	}, [badgeIdx, badgesLength]);
+	}, [badgeIdx]);
 
 	return (
 		<div className='flexcenter justify-between w-[70%] p-[2rem]'>
 			<div className='flex justify-start items-center mx-8 w-full overflow-x-auto'>
-				<Swiper {...swiperOptions}>
+				<Swiper {...swiperOptions} className='w-full lg:w-[70%]'>
 					<PaginationButton cpnRef={prevBtn} type='prev' />
 
 					{[...badges].map((idx) => (
@@ -74,5 +80,3 @@ const Paginations: FC<PaginationProps> = (props) => {
 		</div>
 	);
 };
-
-export default Paginations;

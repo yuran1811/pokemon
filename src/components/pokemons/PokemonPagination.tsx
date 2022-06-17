@@ -1,6 +1,6 @@
 import { NUM_POKE_LOAD } from '../../constants';
 import { Pokemon } from 'shared/types';
-import Pagination from 'components/shared/Pagination';
+import { Pagination } from 'components/shared';
 import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 
 interface PokemonPaginationProps {
@@ -12,8 +12,6 @@ const PokemonPagination: FC<PokemonPaginationProps> = ({ pokemons, setPageIdx })
 	const [badgesLength, setBadgesLength] = useState(pokemons.length / NUM_POKE_LOAD);
 
 	useEffect(() => {
-		console.log('Rerender Poke Pagination');
-
 		setBadgesLength(() => pokemons.length / NUM_POKE_LOAD);
 	}, [pokemons.length]);
 

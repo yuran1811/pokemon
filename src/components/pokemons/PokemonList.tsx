@@ -8,7 +8,7 @@ const PokemonList: FC<PokemonListProps> = (props) => {
 	return (
 		<div className='flexcenter flex-wrap px-12 my-8'>
 			{!listPokes.pokemons.length ? (
-				<div className='text-[4rem] text-center text-ctcolor p-8'>No Poke</div>
+				<div className='text-[4rem] text-center text-ctcolor px-8'>No Poke</div>
 			) : (
 				listPokes.pokemons.map((_) => (
 					<div key={_.name} onClick={() => selectPokemon(_.id)}>

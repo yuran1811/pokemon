@@ -1,18 +1,15 @@
 import { PokemonLoadMoreProps } from 'shared/types';
-import LoadMoreButton from '../shared/LoadMoreButton';
+import { LoadMoreButton } from 'components/shared';
 import { FC, useCallback, useEffect } from 'react';
 
 const PokemonLoadMore: FC<PokemonLoadMoreProps> = (props) => {
-	const { label, pokemons, loading, loadNextPage, loadAllPokemons, ...attr } = props;
+	const { label, pokemons, loading, loadNextPage, ...attr } = props;
 
 	const handleOnClick = useCallback(() => {
-		if (!loading) {
-			loadNextPage && loadNextPage();
-			loadAllPokemons && loadAllPokemons();
-		}
-	}, [pokemons]);
+		if (loading) return;
 
-	useEffect(() => {}, [loading]);
+		loadNextPage && loadNextPage();
+	}, [pokemons]);
 
 	return (
 		<LoadMoreButton {...attr} onClick={handleOnClick}>
