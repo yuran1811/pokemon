@@ -1,8 +1,8 @@
-import { hostUrl } from '../../constants';
 import { ctUnderline } from 'utils';
+import { hostUrl } from '../../constants';
+import { ErrorText } from 'components/interfaces';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
-import { ErrorText } from 'components/interfaces';
 
 export const ErrorContent: FC = () => (
 	<div className='p-[5rem]'>

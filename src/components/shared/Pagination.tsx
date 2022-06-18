@@ -27,26 +27,12 @@ export const Pagination: FC<PaginationProps> = (props) => {
 				nextEl: nextBtn.current,
 			},
 			breakpoints: {
-				1280: {
-					slidesPerView: 6,
-					spaceBetween: 20,
-				},
-				1024: {
-					slidesPerView: 5,
-					spaceBetween: 20,
-				},
-				768: {
-					slidesPerView: 4,
-					spaceBetween: 20,
-				},
-				640: {
-					slidesPerView: 3,
-					spaceBetween: 10,
-				},
-				0: {
-					slidesPerView: 2,
-					spaceBetween: 10,
-				},
+				1024: { slidesPerView: 10 },
+				768: { slidesPerView: 8 },
+				640: { slidesPerView: 6 },
+				520: { slidesPerView: 5 },
+				480: { slidesPerView: 4 },
+				0: { slidesPerView: 3 },
 			},
 			onActiveIndexChange: ({ activeIndex }) => setBadgeIdx(activeIndex + 1),
 		}),
@@ -54,7 +40,6 @@ export const Pagination: FC<PaginationProps> = (props) => {
 	);
 
 	useEffect(() => {
-		// console.log('gene badge');
 		geneBadges();
 	}, [badgesLength]);
 
@@ -63,9 +48,9 @@ export const Pagination: FC<PaginationProps> = (props) => {
 	}, [badgeIdx]);
 
 	return (
-		<div className='flexcenter justify-between w-[70%] p-[2rem]'>
+		<div className='flexcenter justify-between w-full sm:w-[70%] p-[0.5rem] md:p-[2rem]'>
 			<div className='flex justify-start items-center mx-8 w-full overflow-x-auto'>
-				<Swiper {...swiperOptions} className='w-full lg:w-[70%]'>
+				<Swiper {...swiperOptions} className='flex items-center w-full lg:w-[70%]'>
 					<PaginationButton cpnRef={prevBtn} type='prev' />
 
 					{[...badges].map((idx) => (

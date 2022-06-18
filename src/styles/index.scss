@@ -39,7 +39,7 @@
 	button.pagination-btn {
 		--rotate: 45deg;
 
-		@apply z-[1] absolute top-0 mt-auto cursor-pointer rounded-[50%] min-w-[5rem] min-h-[5rem] w-20 h-20 bg-ctcolor;
+		@apply z-[1] absolute mt-auto cursor-pointer rounded-[50%] min-w-[5rem] min-h-[5rem] w-20 h-20 bg-ctcolor;
 
 		&::before,
 		&::after {

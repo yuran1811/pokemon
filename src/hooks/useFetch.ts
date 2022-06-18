@@ -1,15 +1,30 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-export const useFetch = (url: string) => {
-	const [data, setData] = useState<any>();
+export const useFetch = <T>(url: string) => {
+	const controller = new AbortController();
+
+	const [err, setErr] = useState<any>(null);
+	const [data, setData] = useState<T | null>(null);
+	const [loading, setLoading] = useState<boolean>(false);
 
 	useEffect(() => {
-		axios
-			.get<any, any>(url)
-			.then((res) => res.json())
-			.then((data) => setData(data));
-	}, [data]);
+		(async () => {
+			try {
+				setLoading(true);
+				const { data } = await axios.get(url, { signal: controller.signal });
+				setData(data);
+			} catch (e) {
+				setErr(e);
+			} finally {
+				setLoading(false);
+			}
+		})();
+		
+		return () => {
+			controller.abort();
+		};
+	}, [url]);
 
-	return [data, setData];
+	return { data, err, loading, controller };
 };

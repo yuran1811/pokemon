@@ -1,18 +1,63 @@
 import { Dispatch, SetStateAction } from 'react';
 
+export interface PokemonSprite {
+	readonly back_default?: string | null;
+	// readonly back_female?: string;
+	// readonly back_shiny_female?: string;
+	// readonly back_shiny?: string;
+	readonly front_default?: string | null;
+	// readonly front_female?: string;
+	// readonly front_shiny_female?: string;
+	// readonly front_shiny?: string;
+}
+
+export interface PokemonSprites extends PokemonSprite {
+	readonly other?: {
+		readonly 'official-artwork'?: PokemonSprite;
+		readonly dreamwork?: PokemonSprite;
+		readonly home?: PokemonSprite;
+	};
+	readonly versions?: {
+		readonly 'generation-iii'?: {
+			readonly 'firered-leafgreen'?: PokemonSprite;
+			readonly 'ruby-sapphire'?: PokemonSprite;
+			readonly emerald?: PokemonSprite;
+		};
+		readonly 'generation-iv'?: {
+			readonly 'diamond-pearl'?: PokemonSprite;
+			readonly 'heartgold-soulsilver'?: PokemonSprite;
+			readonly platinum?: PokemonSprite;
+		};
+		readonly 'generation-v'?: {
+			readonly 'black-white'?: {
+				readonly animated?: PokemonSprite;
+			} & PokemonSprite;
+		};
+	};
+}
+
 export interface Pokemon {
 	readonly id: number;
 	readonly name: string;
-	readonly sprites: {
-		front_default: string;
-	};
-	abilities: {
-		ability: {
-			name: string;
-			url: string;
+	readonly sprites: PokemonSprites;
+	readonly abilities: {
+		readonly ability: {
+			readonly name: string;
+			readonly url: string;
 		};
-		is_hidden: boolean;
-		slot: number;
+		readonly is_hidden: boolean;
+		readonly slot: number;
+	}[];
+}
+
+export interface PokemonDetail extends Pokemon {
+	readonly base_experience: number;
+	readonly weight: number;
+	readonly types: {
+		readonly slot: number;
+		readonly type: {
+			readonly name: string;
+		};
 	}[];
 }
 
@@ -31,7 +76,7 @@ export interface PokemonDetailProps {
 }
 
 export interface PokemonListProps {
-	readonly listPokes: {pokemons: Pokemon[], change: number};
+	readonly listPokes: { pokemons: Pokemon[]; change: number };
 	readonly viewDetail: PokemonDetailProps;
 	readonly selectPokemon: (id: number) => void;
 	readonly setDetail: Dispatch<SetStateAction<PokemonDetailProps>>;
@@ -43,18 +88,14 @@ export interface PokemonCardProps {
 	readonly setDetail: Dispatch<SetStateAction<PokemonDetailProps>>;
 }
 
-export interface PokemonContextProps {
-	readonly pokemons: Pokemon[];
-}
-
 export interface PokemonSearchProps {
-	setListPokesSearch: Dispatch<PokemonAction>;
+	readonly setListPokesSearch: Dispatch<PokemonAction>;
 }
 
 export interface PokemonLoadMoreProps {
-	readonly pokemons: Pokemon[];
 	readonly label: string;
 	readonly loading: boolean;
-	loadAllPokemons?: Function;
-	loadNextPage?: Function;
+	readonly pokemons: Pokemon[];
+	readonly loadAllPokemons?: Function;
+	readonly loadNextPage?: Function;
 }

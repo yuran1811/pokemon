@@ -6,7 +6,7 @@ const PokemonList: FC<PokemonListProps> = (props) => {
 	const { listPokes, viewDetail, selectPokemon, setDetail } = props;
 
 	return (
-		<div className='flexcenter flex-wrap px-12 my-8'>
+		<div className='flexcenter flex-wrap px-4 lg:px-12 my-8'>
 			{!listPokes.pokemons.length ? (
 				<div className='text-[4rem] text-center text-ctcolor px-8'>No Poke</div>
 			) : (

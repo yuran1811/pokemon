@@ -85,10 +85,6 @@ const PokemonCollection: FC = () => {
 	}, [pokesEachPage, listPokesSearch]);
 
 	useEffect(() => {
-		console.log('Rerender Collection : list pokes');
-	}, [listPokes.change]);
-
-	useEffect(() => {
 		setPokesEachPage(() => pokemons.slice((pageIdx - 1) * NUM_POKE_LOAD, pageIdx * NUM_POKE_LOAD));
 		thisCollection.current && thisCollection.current.scrollIntoView({ behavior: 'smooth' });
 	}, [pageIdx, pokemons]);

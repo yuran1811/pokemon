@@ -1,6 +1,6 @@
 import { PokemonLoadMoreProps } from 'shared/types';
 import { LoadMoreButton } from 'components/shared';
-import { FC, useCallback, useEffect } from 'react';
+import { FC, useCallback } from 'react';
 
 const PokemonLoadMore: FC<PokemonLoadMoreProps> = (props) => {
 	const { label, pokemons, loading, loadNextPage, ...attr } = props;
