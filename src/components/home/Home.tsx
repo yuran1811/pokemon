@@ -8,7 +8,7 @@ const Home: FC = () => (
 	<div className='relative top-0 w-full p-4 text-white'>
 		<div className='p-4 font-bold text-[3.5rem] text-center text-indigo-300 bg-ctbackground'>Welcome to Pokemon Page</div>
 
-		<div className='flex flex-wrap justify-between items-start'>
+		<div className='flex flex-wrap justify-center items-start'>
 			<Technologies />
 			<Contact />
 		</div>

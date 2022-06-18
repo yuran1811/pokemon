@@ -23,7 +23,10 @@ interface listPokesType {
 
 const PokemonCollection: FC = () => {
 	const [localData, setLocalData] = useLocalStore<Pokemon[]>('pokemons', [], '[]');
-	const [pageIdx, setPageIdx] = useState<number>(0);
+	const [localPageIdx, setLocalPageIdx] = useLocalStore<number>('pageIdx', 0, '0');
+	const [localLastSearch, setLocalLastSearch] = useLocalStore<string>('lastSearch', 'null', 'null');
+
+	const [pageIdx, setPageIdx] = useState<number>(localPageIdx);
 	const [nextUrl, setNextUrl] = useState<string>('');
 	const [canLoad, setCanLoad] = useState<boolean>(true);
 	const [loading, setLoading] = useState<boolean>(false);
@@ -44,22 +47,32 @@ const PokemonCollection: FC = () => {
 
 			return { searching: true, searchValue, pokemons: pokemons.filter((_) => _.name.includes(searchValue)) };
 		},
-		{ searching: false, searchValue: '', pokemons }
+		{ searching: false, searchValue: localLastSearch === 'null' ? '' : localLastSearch, pokemons }
 	);
 
 	const loadNextPage = useCallback(async () => {
-		setLoading(true);
+		try {
+			setLoading(true);
 
-		const { data } = await axios.get(nextUrl || `${pokeapiGet}?limit=${NUM_POKE_LOAD}&offset=${loadTimes * NUM_POKE_LOAD}`);
-		data.results.forEach(async (_: Pokemons) => {
-			const { data } = await axios.get(`${pokeapiGet}/${_.name}`);
-			setPokemons((p) => [...p, data]);
-		});
-		setNextUrl(data.next);
-		setLoadTimes((t) => t + 1);
-		setCanLoad(true);
+			const { data } = await axios.get(nextUrl || `${pokeapiGet}?limit=${NUM_POKE_LOAD}&offset=${loadTimes * NUM_POKE_LOAD}`);
 
-		setLoading(false);
+			data.results.forEach(async (_: Pokemons) => {
+				try {
+					const { data } = await axios.get(`${pokeapiGet}/${_.name}`);
+					setPokemons((p) => [...p, data]);
+				} catch (e) {
+					console.log(e);
+				}
+			});
+
+			setNextUrl(data.next);
+			setLoadTimes((t) => t + 1);
+		} catch (e) {
+			console.log(e);
+		} finally {
+			setCanLoad(true);
+			setLoading(false);
+		}
 	}, [nextUrl]);
 	const selectPokemon = useCallback(
 		(id: number) => {
@@ -69,12 +82,12 @@ const PokemonCollection: FC = () => {
 	);
 
 	useEffect(() => {
-		setListPokesSearch({ searchValue: '' });
+		setListPokesSearch({ searchValue: localLastSearch });
 	}, []);
 
 	useEffect(() => {
-		setListPokesSearch({ searchValue: listPokesSearch.searchValue });
 		setLocalData(standardizePokemon(pokemons));
+		setListPokesSearch({ searchValue: listPokesSearch.searchValue });
 	}, [pokemons]);
 
 	useEffect(() => {
@@ -82,16 +95,18 @@ const PokemonCollection: FC = () => {
 			pokemons: listPokesSearch.searching ? listPokesSearch.pokemons : pokesEachPage,
 			change: change + 1,
 		}));
+
+		setLocalLastSearch(listPokesSearch.searchValue || '');
 	}, [pokesEachPage, listPokesSearch]);
 
 	useEffect(() => {
 		setPokesEachPage(() => pokemons.slice((pageIdx - 1) * NUM_POKE_LOAD, pageIdx * NUM_POKE_LOAD));
-		thisCollection.current && thisCollection.current.scrollIntoView({ behavior: 'smooth' });
+		setLocalPageIdx(pageIdx);
 	}, [pageIdx, pokemons]);
 
 	return (
 		<section ref={thisCollection} className='flexcentercol flex-wrap text-ctbackground font-semibold mt-[4rem]'>
-			<PokemonSearch placeholder='Type to search' setListPokesSearch={setListPokesSearch} />
+			<PokemonSearch value={localLastSearch} placeholder='Type to search' setListPokesSearch={setListPokesSearch} />
 
 			{viewDetail.isOpened && viewDetail.id && (
 				<Overlay zIdx='z-[11]' onClick={() => setDetail({ id: 0, isOpened: !viewDetail.isOpened })} />
@@ -99,7 +114,7 @@ const PokemonCollection: FC = () => {
 
 			<PokemonList listPokes={listPokes} viewDetail={viewDetail} selectPokemon={selectPokemon} setDetail={setDetail} />
 
-			{pokemons.length ? <PokemonPagination pokemons={pokemons} setPageIdx={setPageIdx} /> : ''}
+			{pokemons.length ? <PokemonPagination localPageIdx={localPageIdx} pokemons={pokemons} setPageIdx={setPageIdx} /> : ''}
 
 			{canLoad && <PokemonLoadMore label='More Pokemons' pokemons={pokemons} loading={loading} loadNextPage={loadNextPage} />}
 		</section>

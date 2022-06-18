@@ -1,7 +1,7 @@
 import { paginationBadge } from 'utils';
 import { PaginationBadgeProps } from 'shared/types';
-import { useSwiperSlide } from 'swiper/react';
 import { FC, HTMLProps } from 'react';
+import { useSwiperSlide } from 'swiper/react';
 
 export const PaginationBadge: FC<PaginationBadgeProps & HTMLProps<HTMLDivElement>> = ({ idx, setBadgeIdx }) => {
 	const { isActive } = useSwiperSlide();

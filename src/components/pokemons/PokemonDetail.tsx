@@ -6,6 +6,7 @@ import { getImgsFromSprites } from 'utils/getImgsFromSprites';
 import { PokemonDetail as PokemonDetailType } from 'shared/types';
 import { FC, useCallback, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
+import { BackIcon } from 'components/icons';
 
 interface imgSourceType {
 	fronts: string[];
@@ -54,19 +55,21 @@ const PokemonDetail: FC = () => {
 				<div className='pt-8'>
 					<ErrorText extraStyle='text-[3rem] p-4'>Fail to load '{pokemonId}' data from pokeapi</ErrorText>
 					<ErrorText extraStyle='text-[3rem] p-4'>Type the name carefully</ErrorText>
+					<BackIcon />
 				</div>
 			) : (
 				<>
-					<div className='container m-auto pt-[4rem] px-[2.5rem]'>
+					<div className='container m-auto pt-[1rem] px-[2.5rem]'>
+						<BackIcon />
 						{Object.entries(basicInfo).map(([key, val]) => {
 							return (
-								<div className='text-[2.4rem] text-center text-white bg-ctbackground font-bold'>
+								<div key={`info_${key}`} className='text-[2.4rem] text-center text-white bg-ctbackground font-bold'>
 									{key}:{' '}
 									{val instanceof Object ? (
 										val.arr.map((_: any) => (
-											<div className='mx-[0.5rem] inline-block'>
+											<div key={_[val.key].name} className='mx-[0.5rem] inline-block'>
 												<span className='text-[2.4rem] text-start text-ctgoldlight bg-ctbackground'>
-													{_[val.key].name}
+													{_[val.key].name.includes('-') ? _[val.key].name.split('-').join(' ') : _[val.key].name}
 												</span>
 											</div>
 										))

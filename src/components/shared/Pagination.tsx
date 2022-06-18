@@ -6,11 +6,11 @@ import { Navigation, A11y } from 'swiper';
 import 'swiper/css';
 
 export const Pagination: FC<PaginationProps> = (props) => {
-	const { badgesLength } = props;
+	const { badgesLength, localPageIdx } = props;
 
-	const prevBtn = useRef(null);
-	const nextBtn = useRef(null);
-	const [badgeIdx, setBadgeIdx] = useState(1);
+	const prevBtn = useRef<HTMLDivElement>(null);
+	const nextBtn = useRef<HTMLDivElement>(null);
+	const [badgeIdx, setBadgeIdx] = useState(localPageIdx - 1);
 	const [badges, setBadges] = useState<Set<number>>(new Set());
 
 	const geneBadges = useCallback(() => {
@@ -34,7 +34,7 @@ export const Pagination: FC<PaginationProps> = (props) => {
 				480: { slidesPerView: 4 },
 				0: { slidesPerView: 3 },
 			},
-			onActiveIndexChange: ({ activeIndex }) => setBadgeIdx(activeIndex + 1),
+			onSlideChange: ({ activeIndex }) => setBadgeIdx(activeIndex + 1),
 		}),
 		[]
 	);
@@ -44,6 +44,7 @@ export const Pagination: FC<PaginationProps> = (props) => {
 	}, [badgesLength]);
 
 	useEffect(() => {
+		console.log(badgeIdx);
 		props?.setPageIdx && props.setPageIdx(badgeIdx);
 	}, [badgeIdx]);
 
@@ -53,13 +54,13 @@ export const Pagination: FC<PaginationProps> = (props) => {
 				<Swiper {...swiperOptions} className='flex items-center w-full lg:w-[70%]'>
 					<PaginationButton cpnRef={prevBtn} type='prev' />
 
-					{[...badges].map((idx) => (
+					{[...badges].map((idx: number) => (
 						<SwiperSlide key={idx}>
 							<PaginationBadge idx={idx} setBadgeIdx={setBadgeIdx} />
 						</SwiperSlide>
 					))}
 
-					<PaginationButton cpnRef={nextBtn} type='next' />
+					<PaginationButton cpnRef={nextBtn} type='next' localPageIdx={localPageIdx} />
 				</Swiper>
 			</div>
 		</div>
