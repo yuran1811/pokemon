@@ -6,14 +6,14 @@ const afterStyle = `after:content-[""] after:absolute after:left-6 after:right-[
 const hoverStyle = `hover:translate-x-[-0.5rem] transition-all`;
 
 export const BackIcon: FC<HTMLProps<HTMLDivElement>> = () => {
-	const back = useNavigate();
+  const back = useNavigate();
 
-	return (
-		<div
-			className={`cursor-pointer flex justify-start items-center relative my-[1rem] mx-auto w-[5rem] h-[5rem] ${beforeStyle} ${afterStyle} ${hoverStyle}`}
-			onClick={() => back(-1)}
-		>
-			<span className='w-full h-[0.6rem] rounded-[1rem] bg-white'></span>
-		</div>
-	);
+  return (
+    <div
+      className={`cursor-pointer flex justify-start items-center relative my-[1rem] mx-auto w-[5rem] h-[5rem] ${beforeStyle} ${afterStyle} ${hoverStyle}`}
+      onClick={() => back(-1)}
+    >
+      <span className='w-full h-[0.6rem] rounded-[1rem] bg-white' />
+    </div>
+  );
 };

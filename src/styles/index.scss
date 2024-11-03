@@ -5,94 +5,94 @@
 @tailwind utilities;
 
 @layer base {
-	* {
-		font-family: 'Khand', sans-serif;
+  * {
+    font-family: 'Khand', sans-serif;
 
-		&::selection {
-			@apply bg-ctcolor text-ctbackground;
-		}
+    &::selection {
+      @apply bg-ctcolor text-ctbackground;
+    }
 
-		&,
-		&::before,
-		&::after {
-			@apply p-0 m-0 select-auto box-border;
-		}
-		&::-webkit-scrollbar {
-			@apply w-0 h-[0.5rem] bg-ctcolor;
+    &,
+    &::before,
+    &::after {
+      @apply p-0 m-0 select-auto box-border;
+    }
+    &::-webkit-scrollbar {
+      @apply w-0 h-[0.5rem] bg-ctcolor;
 
-			&-thumb {
-				@apply bg-ctwhite;
-			}
-		}
-	}
+      &-thumb {
+        @apply bg-ctwhite;
+      }
+    }
+  }
 
-	html {
-		@apply text-[62.5%];
-	}
+  html {
+    @apply text-[62.5%];
+  }
 
-	body {
-		@apply overflow-x-hidden overflow-y-auto scroll-smooth bg-ctbackground;
-	}
+  body {
+    @apply overflow-x-hidden overflow-y-auto scroll-smooth bg-ctbackground;
+  }
 }
 
 @layer components {
-	button.pagination-btn {
-		--rotate: 45deg;
+  button.pagination-btn {
+    --rotate: 45deg;
 
-		@apply z-[1] absolute mt-auto cursor-pointer rounded-[50%] min-w-[5rem] min-h-[5rem] w-20 h-20 bg-ctcolor;
+    @apply z-[1] absolute mt-auto cursor-pointer rounded-[50%] min-w-[5rem] min-h-[5rem] w-20 h-20 bg-ctcolor;
 
-		&::before,
-		&::after {
-			@apply absolute left-6 right-[unset] w-[50%] h-[0.7rem] rounded-[1rem] bg-ctbackground;
-			content: '';
-			transition: all 0.3s ease;
-		}
-		&::before {
-			transform: rotate(var(--rotate)) translateY(0.9rem);
-		}
-		&::after {
-			transform: rotate(calc(-1 * var(--rotate))) translateY(-0.9rem);
-		}
-		&:hover {
-			&::before,
-			&::after {
-				@apply left-[1rem];
-			}
-		}
+    &::before,
+    &::after {
+      @apply absolute left-6 right-[unset] w-[50%] h-[0.7rem] rounded-[1rem] bg-ctbackground;
+      content: '';
+      transition: all 0.3s ease;
+    }
+    &::before {
+      transform: rotate(var(--rotate)) translateY(0.9rem);
+    }
+    &::after {
+      transform: rotate(calc(-1 * var(--rotate))) translateY(-0.9rem);
+    }
+    &:hover {
+      &::before,
+      &::after {
+        @apply left-[1rem];
+      }
+    }
 
-		&.prev {
-			@apply left-0 right-[unset];
-		}
-		&.next {
-			--rotate: -45deg;
-			@apply left-[unset] right-0;
+    &.prev {
+      @apply left-0 right-[unset];
+    }
+    &.next {
+      --rotate: -45deg;
+      @apply left-[unset] right-0;
 
-			&::before,
-			&::after {
-				@apply left-[unset] right-6;
-			}
-			&:hover {
-				&::before,
-				&::after {
-					@apply right-[1rem];
-				}
-			}
-		}
-	}
+      &::before,
+      &::after {
+        @apply left-[unset] right-6;
+      }
+      &:hover {
+        &::before,
+        &::after {
+          @apply right-[1rem];
+        }
+      }
+    }
+  }
 }
 
 @layer utilities {
-	.flexcenter {
-		@apply flex items-center justify-center;
-	}
+  .flexcenter {
+    @apply flex items-center justify-center;
+  }
 
-	.flexcentercol {
-		@apply flex flex-col items-center justify-center;
-	}
+  .flexcentercol {
+    @apply flex flex-col items-center justify-center;
+  }
 
-	.translate-center {
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-	}
+  .translate-center {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 }

@@ -1,24 +1,23 @@
-import { pokeapi } from '../../constants';
-import { HighlightLink } from 'components/interfaces';
-import Contact from './Contact';
-import Technologies from './Technologies';
 import { FC } from 'react';
 
+import { HighlightLink } from '@/components/interfaces';
+import { pokeapi } from '@/constants';
+import Contact from './Contact';
+import Technologies from './Technologies';
+
 const Home: FC = () => (
-	<div className='relative top-0 w-full p-4 text-white'>
-		<div className='p-4 font-bold text-[3.5rem] text-center text-indigo-300 bg-ctbackground'>Welcome to Pokemon Page</div>
+  <div className='relative top-0 w-full p-4 text-white'>
+    <div className='p-12 font-bold text-6xl text-center text-indigo-300 bg-ctbackground'>Welcome to Pokemon Wiki</div>
 
-		<div className='flex flex-wrap justify-center items-start'>
-			<Technologies />
-			<Contact />
-		</div>
+    <div className='flex flex-wrap justify-center items-start'>
+      <Technologies />
+      <Contact />
+    </div>
 
-		<div className='flexcentercol text-[3rem] w-full mt-[2.5rem]'>
-			<p>
-				This site use <HighlightLink url={pokeapi}>Poke API</HighlightLink>
-			</p>
-		</div>
-	</div>
+    <p className='flexcentercol text-4xl w-full my-12'>
+      This site using <HighlightLink url={pokeapi}>Poke API</HighlightLink>
+    </p>
+  </div>
 );
 
 export default Home;

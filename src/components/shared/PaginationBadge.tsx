@@ -1,17 +1,16 @@
-import { paginationBadge } from 'utils';
-import { PaginationBadgeProps } from 'shared/types';
 import { FC, HTMLProps } from 'react';
 import { useSwiperSlide } from 'swiper/react';
 
-export const PaginationBadge: FC<PaginationBadgeProps & HTMLProps<HTMLDivElement>> = ({ idx, setBadgeIdx }) => {
-	const { isActive } = useSwiperSlide();
+import { paginationBadge } from '@/utils';
+import { PaginationBadgeProps } from '@/shared/types';
 
-	return (
-		<div
-			className={`${paginationBadge} ${isActive ? 'text-ctbackground bg-ctcolor' : 'hover:text-ctbackground hover:bg-ctcolor'}`}
-			onClick={() => setBadgeIdx(+idx)}
-		>
-			<span className='font-bold text-[2.6rem]'>{idx}</span>
-		</div>
-	);
+export const PaginationBadge: FC<PaginationBadgeProps & HTMLProps<HTMLDivElement>> = ({ idx, setBadgeIdx }) => {
+  const { isActive } = useSwiperSlide();
+  const activeClass = isActive ? 'text-ctbackground bg-ctcolor' : 'text-ctcolor bg-ctbackground';
+
+  return (
+    <div className={`${paginationBadge} ${activeClass} font-bold text-[2.6rem]`} onClick={() => setBadgeIdx(+idx)}>
+      {idx}
+    </div>
+  );
 };

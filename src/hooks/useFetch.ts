@@ -2,29 +2,30 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 export const useFetch = <T>(url: string) => {
-	const controller = new AbortController();
+  const controller = new AbortController();
 
-	const [err, setErr] = useState<any>(null);
-	const [data, setData] = useState<T | null>(null);
-	const [loading, setLoading] = useState<boolean>(false);
+  const [err, setErr] = useState<any>(null);
+  const [data, setData] = useState<T | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
-	useEffect(() => {
-		(async () => {
-			try {
-				setLoading(true);
-				const { data } = await axios.get(url, { signal: controller.signal });
-				setData(data);
-			} catch (e) {
-				setErr(e);
-			} finally {
-				setLoading(false);
-			}
-		})();
-		
-		return () => {
-			controller.abort();
-		};
-	}, [url]);
+  useEffect(() => {
+    (async () => {
+      try {
+        setLoading(true);
+        const { data, headers } = await axios.get(url, { signal: controller.signal });
+        console.log('🚀 ~ headers:', headers);
+        setData(data);
+      } catch (e) {
+        setErr(e);
+      } finally {
+        setLoading(false);
+      }
+    })();
 
-	return { data, err, loading, controller };
+    return () => {
+      controller.abort();
+    };
+  }, [url]);
+
+  return { data, err, loading, controller };
 };
