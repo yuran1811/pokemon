@@ -1,0 +1,109 @@
+@import url("https://fonts.googleapis.com/css2?family=Khand:wght@300;400;500;600;700&display=swap")
+layer(base);
+
+@import "tailwindcss";
+
+@theme {
+  --color-nofill: transparent;
+  --color-current: currentColor;
+  --color-ctcolor: #81b29a;
+  --color-ctlinkcolor: #2cccff;
+  --color-ctwhite: #f4f1de;
+  --color-ctgold: #9c7028;
+  --color-ctgoldlight: #f2cc8f;
+  --color-ctbackground: #101b33;
+  --color-ctloadmorebg: #33614b;
+}
+
+@utility flexcenter {
+  @apply flex items-center justify-center;
+}
+
+@utility flexcentercol {
+  @apply flexcenter flex-col;
+}
+
+@utility translate-center {
+  @apply top-1/2 left-1/2 translate-[-50%];
+}
+
+@utility pagination-btn {
+  @apply bg-ctcolor absolute top-0 z-1 size-24 min-h-20 min-w-20 cursor-pointer rounded-[50%];
+
+  &::before,
+  &::after {
+    @apply bg-ctbackground absolute h-3 w-1/2 rounded-md transition-all duration-300 content-[""];
+  }
+  &::before {
+    transform: rotate(var(--rotate)) translateY(1.2rem);
+  }
+  &::after {
+    transform: rotate(calc(-1 * var(--rotate))) translateY(-1.2rem);
+  }
+}
+
+@layer base {
+  * {
+    font-family: "Khand", sans-serif;
+
+    &::selection {
+      @apply bg-ctcolor text-ctbackground;
+    }
+
+    &,
+    &::before,
+    &::after {
+      @apply m-0 box-border p-0 select-auto;
+    }
+    &::-webkit-scrollbar {
+      @apply bg-ctcolor h-2 w-0;
+
+      &-thumb {
+        @apply bg-ctwhite;
+      }
+    }
+  }
+
+  html {
+    @apply text-[62.5%];
+  }
+
+  body {
+    @apply bg-ctbackground overflow-x-hidden overflow-y-auto scroll-smooth;
+  }
+
+  button {
+    &.prev {
+      --rotate: 45deg;
+
+      @apply right-[unset] left-0;
+
+      &::before,
+      &::after {
+        @apply right-[unset] left-8;
+      }
+      &:hover {
+        &::before,
+        &::after {
+          @apply left-6;
+        }
+      }
+    }
+    &.next {
+      --rotate: -45deg;
+
+      @apply right-0 left-[unset];
+
+      &::before,
+      &::after {
+        @apply right-8 left-[unset];
+      }
+      &:hover {
+        &::before,
+        &::after {
+          @apply right-6;
+        }
+      }
+    }
+  }
+}
