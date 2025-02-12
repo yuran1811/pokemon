@@ -1,10 +1,11 @@
-import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { A11y, Navigation } from 'swiper/modules';
-import { Swiper, SwiperProps, SwiperSlide } from 'swiper/react';
+import { FC, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { A11y, Navigation } from "swiper/modules";
+import { Swiper, SwiperProps, SwiperSlide } from "swiper/react";
 
-import 'swiper/css';
-import { PaginationBadge, PaginationButton } from '@/components/shared';
-import { PaginationProps } from '@/shared/types';
+import { PaginationBadge, PaginationButton } from "@/components/shared";
+import { PaginationProps } from "@/shared/types";
+
+import "swiper/css";
 
 export const Pagination: FC<PaginationProps> = (props) => {
   const { badgesLength, localPageIdx } = props;
@@ -15,7 +16,8 @@ export const Pagination: FC<PaginationProps> = (props) => {
   const [badges, setBadges] = useState<Set<number>>(new Set());
 
   const geneBadges = useCallback(() => {
-    for (let i = 1; i <= badgesLength; i++) setBadges((badges) => badges.add(i));
+    for (let i = 1; i <= badgesLength; i++)
+      setBadges((badges) => badges.add(i));
   }, [badgesLength]);
 
   const swiperOptions = useMemo<SwiperProps>(
@@ -37,7 +39,7 @@ export const Pagination: FC<PaginationProps> = (props) => {
       },
       onSlideChange: ({ activeIndex }) => setBadgeIdx(activeIndex + 1),
     }),
-    []
+    [],
   );
 
   useEffect(() => {
@@ -45,15 +47,17 @@ export const Pagination: FC<PaginationProps> = (props) => {
   }, [badgesLength]);
 
   useEffect(() => {
-    console.log(badgeIdx);
     props?.setPageIdx && props.setPageIdx(badgeIdx);
   }, [badgeIdx]);
 
   return (
-    <div className='flexcenter justify-between w-full sm:w-[70%] p-[0.5rem] md:p-[2rem]'>
-      <div className='flex justify-start items-center mx-8 w-full overflow-x-auto'>
-        <Swiper {...swiperOptions} className='flex items-center w-full lg:w-[70%]'>
-          <PaginationButton cpnRef={prevBtn} type='prev' />
+    <div className="flexcenter w-full justify-between p-[0.5rem] sm:w-[70%] md:p-[2rem]">
+      <div className="mx-8 flex w-full items-center justify-start overflow-x-auto">
+        <Swiper
+          {...swiperOptions}
+          className="flex w-full items-center lg:w-[70%]"
+        >
+          <PaginationButton cpnRef={prevBtn} type="prev" />
 
           {[...badges].map((idx: number) => (
             <SwiperSlide key={idx}>
@@ -61,7 +65,11 @@ export const Pagination: FC<PaginationProps> = (props) => {
             </SwiperSlide>
           ))}
 
-          <PaginationButton cpnRef={nextBtn} type='next' localPageIdx={localPageIdx} />
+          <PaginationButton
+            cpnRef={nextBtn}
+            type="next"
+            localPageIdx={localPageIdx}
+          />
         </Swiper>
       </div>
     </div>

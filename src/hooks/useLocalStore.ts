@@ -1,4 +1,4 @@
-import { Dispatch, useEffect, useState } from 'react';
+import { Dispatch, useEffect, useState } from "react";
 
 const getInitialValue = <T>(key: string, value: T, defaultValue: string): T => {
   const localData = JSON.parse(localStorage.getItem(key) ?? defaultValue);
@@ -7,8 +7,14 @@ const getInitialValue = <T>(key: string, value: T, defaultValue: string): T => {
   return value instanceof Function ? value() : value;
 };
 
-export const useLocalStore = <T>(key: string, value: T, defaultValue: string): [T, Dispatch<T>] => {
-  const [data, setData] = useState(() => getInitialValue<T>(key, value, defaultValue));
+export const useLocalStore = <T>(
+  key: string,
+  value: T,
+  defaultValue: string,
+): [T, Dispatch<T>] => {
+  const [data, setData] = useState(() =>
+    getInitialValue<T>(key, value, defaultValue),
+  );
 
   useEffect(() => {
     localStorage.setItem(key, JSON.stringify(data));

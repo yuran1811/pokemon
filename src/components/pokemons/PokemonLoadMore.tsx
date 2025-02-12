@@ -1,7 +1,7 @@
-import { FC, useCallback } from 'react';
+import { FC, useCallback } from "react";
 
-import { PokemonLoadMoreProps } from '@/shared/types';
-import { LoadMoreButton } from '@/components/shared';
+import { PokemonLoadMoreProps } from "@/shared/types";
+import { LoadMoreButton } from "@/components/shared";
 
 const PokemonLoadMore: FC<PokemonLoadMoreProps> = (props) => {
   const { label, pokemons, loading, loadNextPage, ...attr } = props;
@@ -14,7 +14,7 @@ const PokemonLoadMore: FC<PokemonLoadMoreProps> = (props) => {
 
   return (
     <LoadMoreButton {...attr} onClick={handleOnClick}>
-      {!loading ? label : 'Loading ...'}
+      {!loading ? label : "Loading ..."}
     </LoadMoreButton>
   );
 };

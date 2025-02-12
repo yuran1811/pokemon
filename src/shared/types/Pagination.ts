@@ -1,4 +1,4 @@
-import { Dispatch, MutableRefObject, SetStateAction } from 'react';
+import { Dispatch, MutableRefObject, SetStateAction } from "react";
 
 export interface PaginationProps {
   badgesLength: number;

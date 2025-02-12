@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction } from "react";
 
 export interface PokemonSprite {
   readonly back_default?: string | null;
@@ -13,23 +13,23 @@ export interface PokemonSprite {
 
 export interface PokemonSprites extends PokemonSprite {
   readonly other?: {
-    readonly 'official-artwork'?: PokemonSprite;
+    readonly "official-artwork"?: PokemonSprite;
     readonly dreamwork?: PokemonSprite;
     readonly home?: PokemonSprite;
   };
   readonly versions?: {
-    readonly 'generation-iii'?: {
-      readonly 'firered-leafgreen'?: PokemonSprite;
-      readonly 'ruby-sapphire'?: PokemonSprite;
+    readonly "generation-iii"?: {
+      readonly "firered-leafgreen"?: PokemonSprite;
+      readonly "ruby-sapphire"?: PokemonSprite;
       readonly emerald?: PokemonSprite;
     };
-    readonly 'generation-iv'?: {
-      readonly 'diamond-pearl'?: PokemonSprite;
-      readonly 'heartgold-soulsilver'?: PokemonSprite;
+    readonly "generation-iv"?: {
+      readonly "diamond-pearl"?: PokemonSprite;
+      readonly "heartgold-soulsilver"?: PokemonSprite;
       readonly platinum?: PokemonSprite;
     };
-    readonly 'generation-v'?: {
-      readonly 'black-white'?: {
+    readonly "generation-v"?: {
+      readonly "black-white"?: {
         readonly animated?: PokemonSprite;
       } & PokemonSprite;
     };

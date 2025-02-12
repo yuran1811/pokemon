@@ -1,4 +1,4 @@
-import { Pokemon } from '@/shared/types';
+import { Pokemon } from "@/shared/types";
 
 export const standardizePokemon = (pokemons: Pokemon[]): Pokemon[] => {
   const getPokemonMini = (_: Pokemon): Pokemon => ({

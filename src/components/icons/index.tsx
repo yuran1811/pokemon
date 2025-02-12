@@ -1,3 +1,3 @@
-export * from './BackIcon';
-export * from './CloseIcon';
-export * from './InfoIcon';
+export * from "./BackIcon";
+export * from "./CloseIcon";
+export * from "./InfoIcon";

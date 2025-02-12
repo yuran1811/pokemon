@@ -1,8 +1,11 @@
-import { FC, HTMLProps } from 'react';
+import { FC, HTMLProps } from "react";
 
-export const LoadMoreButton: FC<HTMLProps<HTMLButtonElement>> = ({ children, onClick }) => (
+export const LoadMoreButton: FC<HTMLProps<HTMLButtonElement>> = ({
+  children,
+  onClick,
+}) => (
   <button
-    className='cursor-pointer relative text-[3.5rem] text-ctbackground px-8 py-[0.5rem] m-[2rem] border-none rounded-[1.5rem] bg-ctcolor transition-all duration-200 ease-in-out hover:text-ctwhite hover:bg-ctloadmorebg'
+    className="text-ctbackground bg-ctcolor hover:text-ctwhite hover:bg-ctloadmorebg relative m-[2rem] cursor-pointer rounded-3xl border-none px-8 py-4 text-4xl transition-all duration-200 ease-in-out"
     onClick={onClick}
   >
     {children}

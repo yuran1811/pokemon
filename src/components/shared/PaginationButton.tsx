@@ -1,9 +1,11 @@
-import { FC, HTMLProps, useEffect } from 'react';
-import { useSwiper } from 'swiper/react';
+import { FC, HTMLProps, useEffect } from "react";
+import { useSwiper } from "swiper/react";
 
-import { PaginationButtonProps } from '@/shared/types';
+import { PaginationButtonProps } from "@/shared/types";
 
-export const PaginationButton: FC<PaginationButtonProps & HTMLProps<HTMLButtonElement>> = (props) => {
+export const PaginationButton: FC<
+  PaginationButtonProps & HTMLProps<HTMLButtonElement>
+> = (props) => {
   const { cpnRef, type, localPageIdx, ...others } = props;
 
   const swiper = useSwiper();
@@ -18,7 +20,7 @@ export const PaginationButton: FC<PaginationButtonProps & HTMLProps<HTMLButtonEl
       ref={cpnRef}
       className={`pagination-btn flexcenter ${type}`}
       onClick={() => {
-        type === 'prev' ? swiper.slidePrev() : swiper.slideNext();
+        type === "prev" ? swiper.slidePrev() : swiper.slideNext();
       }}
     />
   );

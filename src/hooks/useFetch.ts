@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 export const useFetch = <T>(url: string) => {
   const controller = new AbortController();
@@ -12,8 +12,10 @@ export const useFetch = <T>(url: string) => {
     (async () => {
       try {
         setLoading(true);
-        const { data, headers } = await axios.get(url, { signal: controller.signal });
-        console.log('🚀 ~ headers:', headers);
+        const { data, headers } = await axios.get(url, {
+          signal: controller.signal,
+        });
+        console.log("🚀 ~ headers:", headers);
         setData(data);
       } catch (e) {
         setErr(e);

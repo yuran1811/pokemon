@@ -1,4 +1,4 @@
-import { PokemonDetail, PokemonSprite, PokemonSprites } from '@/shared/types';
+import { PokemonDetail, PokemonSprite } from "@/shared/types";
 
 export const getImgsFromSprites = (data: PokemonDetail) => {
   if (data === null || !data?.sprites) return;
@@ -9,7 +9,10 @@ export const getImgsFromSprites = (data: PokemonDetail) => {
 
   const { sprites } = data;
 
-  const pushToArray = (sprites: PokemonSprite | undefined, animated: boolean = false) => {
+  const pushToArray = (
+    sprites: PokemonSprite | undefined,
+    animated: boolean = false,
+  ) => {
     if (sprites === undefined) return;
 
     if (animated) {
@@ -27,25 +30,28 @@ export const getImgsFromSprites = (data: PokemonDetail) => {
   if (sprites?.other) {
     pushToArray(sprites.other?.dreamwork);
     pushToArray(sprites.other?.home);
-    pushToArray(sprites.other['official-artwork']);
+    pushToArray(sprites.other["official-artwork"]);
   }
 
   if (sprites?.versions) {
-    if (sprites.versions['generation-iii']) {
-      pushToArray(sprites.versions['generation-iii'].emerald);
-      pushToArray(sprites.versions['generation-iii']['firered-leafgreen']);
-      pushToArray(sprites.versions['generation-iii']['ruby-sapphire']);
+    if (sprites.versions["generation-iii"]) {
+      pushToArray(sprites.versions["generation-iii"].emerald);
+      pushToArray(sprites.versions["generation-iii"]["firered-leafgreen"]);
+      pushToArray(sprites.versions["generation-iii"]["ruby-sapphire"]);
     }
 
-    if (sprites.versions['generation-iv']) {
-      pushToArray(sprites.versions['generation-iv'].platinum);
-      pushToArray(sprites.versions['generation-iv']['diamond-pearl']);
-      pushToArray(sprites.versions['generation-iv']['heartgold-soulsilver']);
+    if (sprites.versions["generation-iv"]) {
+      pushToArray(sprites.versions["generation-iv"].platinum);
+      pushToArray(sprites.versions["generation-iv"]["diamond-pearl"]);
+      pushToArray(sprites.versions["generation-iv"]["heartgold-soulsilver"]);
     }
 
-    if (sprites.versions['generation-v']) {
-      pushToArray(sprites.versions['generation-v']['black-white']?.animated, true);
-      pushToArray(sprites.versions['generation-v']['black-white']);
+    if (sprites.versions["generation-v"]) {
+      pushToArray(
+        sprites.versions["generation-v"]["black-white"]?.animated,
+        true,
+      );
+      pushToArray(sprites.versions["generation-v"]["black-white"]);
     }
   }
 

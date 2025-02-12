@@ -1,3 +1,5 @@
-import { FC } from 'react';
+import { FC } from "react";
 
-export const Loading: FC = () => <div className='text-[6rem] font-bold text-ctcolor'>Loading</div>;
+export const Loading: FC = () => (
+  <div className="text-ctcolor text-[6rem] font-bold">Loading</div>
+);

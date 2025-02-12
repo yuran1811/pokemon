@@ -1,10 +1,10 @@
-import { FC } from 'react';
+import { FC } from "react";
 
-import { HeaderLink } from '@/components/interfaces';
-import { hostUrl } from '@/constants';
+import { HeaderLink } from "@/components/interfaces";
+import { hostUrl } from "@/constants";
 
 const Header: FC = () => (
-  <header className='z-10 flexcenter flex-wrap sticky top-0 p-4 w-full bg-ctbackground border-b-2 border-ctcolor'>
+  <header className="flexcenter bg-ctbackground border-ctcolor sticky top-0 z-10 w-full flex-wrap border-b-2 p-4">
     <HeaderLink url={`${hostUrl}/`}>Home</HeaderLink>
     <HeaderLink url={`${hostUrl}/pokemons`}>Pokemon</HeaderLink>
   </header>
