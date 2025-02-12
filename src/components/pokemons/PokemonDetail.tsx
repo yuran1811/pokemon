@@ -65,8 +65,8 @@ const PokemonDetail: FC = () => {
           <BackIcon />
         </div>
       ) : (
-        <>
-          <div className="container m-auto px-[2.5rem] pt-[1rem]">
+        <section className="container mx-auto min-h-[calc(100dvh-120px)]">
+          <div className="px-[2.5rem] pt-[1rem]">
             <BackIcon />
             {Object.entries(basicInfo).map(([key, val]) => {
               return (
@@ -126,7 +126,7 @@ const PokemonDetail: FC = () => {
               />
             ))}
           </div>
-        </>
+        </section>
       )}
     </>
   );
