@@ -6,7 +6,7 @@ import Contact from "./Contact";
 import Technologies from "./Technologies";
 
 const Home: FC = () => (
-  <div className="relative top-0 min-h-[calc(100dvh-120px)] w-full p-4 text-white">
+  <div className="w-full text-white">
     <div className="bg-ctbackground py-20 text-center text-6xl font-bold text-indigo-300">
       Welcome to Pokemon Wiki
     </div>

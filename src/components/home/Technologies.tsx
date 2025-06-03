@@ -14,10 +14,7 @@ const Technologies: FC = () => (
             key={name + ico}
             className="flex w-full items-center justify-center"
           >
-            <span
-              className={`iconify px-4 text-[${size}]`}
-              data-icon={ico}
-            ></span>
+            <span className={`iconify px-4 text-[${size}]`} data-icon={ico} />
             <span>{name}</span>
           </li>
         ))}

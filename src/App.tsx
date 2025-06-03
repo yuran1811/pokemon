@@ -11,24 +11,27 @@ import { ErrorContent } from "@/components/shared";
 import { hostUrl } from "@/constants";
 
 const App: FC = () => (
-  <div className="relative h-screen overflow-x-hidden">
+  <>
     <Header />
 
-    <Routes>
-      <Route path={`/${hostUrl}`}>
-        <Route index element={<Home />} />
-        <Route path="pokemons/*">
-          <Route index element={<PokemonCollection />} />
-          <Route path=":pokemonId" element={<PokemonDetail />} />
+    <main className="min-h-[calc(100vh-12rem)] w-full">
+      <Routes>
+        <Route path={`/${hostUrl}`}>
+          <Route index element={<Home />} />
+          <Route path="pokemons/*">
+            <Route index element={<PokemonCollection />} />
+            <Route path=":pokemonId" element={<PokemonDetail />} />
+            <Route path="*" element={<ErrorContent />} />
+          </Route>
           <Route path="*" element={<ErrorContent />} />
         </Route>
-        <Route path="*" element={<ErrorContent />} />
-      </Route>
-    </Routes>
+      </Routes>
+    </main>
+
     <Outlet />
 
     <Footer />
-  </div>
+  </>
 );
 
 export default App;
